@@ -21,3 +21,6 @@ build/
 # NOTE: config.js is intentionally NOT ignored.
 # Per hackathon requirements, API keys must be visible to the evaluator.
 # In production, use Secret Manager instead.
+
+# Dev debug scripts — not part of submission
+test-errors.js

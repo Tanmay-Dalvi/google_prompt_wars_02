@@ -31,7 +31,7 @@ performance.mark('votewise-init-start');
  * @property {string} FIREBASE_SESSION_KEY - localStorage key for session ID
  */
 const CONSTANTS = {
-  MAX_INPUT_LENGTH: 500,
+  MAX_INPUT_LENGTH: 200,
   GEMINI_MAX_CALLS: 30,
   GEMINI_RATE_LIMIT_MS: 2000,
   CACHE_TTL_MS: 300000,
@@ -41,7 +41,11 @@ const CONSTANTS = {
   SUPPORTED_LANGUAGES: ['en', 'hi', 'mr', 'ta', 'te', 'bn'],
   TRANSLATE_CACHE_KEY: 'vw_translate_cache',
   TEST_SHORTCUT_KEY: 'T',
-  FIREBASE_SESSION_KEY: 'vw_session_id'
+  FIREBASE_SESSION_KEY: 'vw_session_id',
+  GEMINI_TEMPERATURE: 0.3,
+  GEMINI_MAX_OUTPUT_TOKENS: 512,
+  LOK_SABHA_CONSTITUENCIES: 543,
+  NEXT_ELECTION_YEAR: 2029
 };
 
 // ============ GCP STRUCTURED LOGGING ============
@@ -281,7 +285,7 @@ window.addEventListener('beforeunload', cleanupFirebaseListeners);
  */
 async function callAskElectionAI(question, language = 'en', userState = 'India') {
   const sanitized = (typeof sanitizeInput === 'function')
-    ? sanitizeInput(question)
+    ? sanitizeInput(question.trim())
     : question.substring(0, CONSTANTS.MAX_INPUT_LENGTH);
 
   if (!sanitized || sanitized.length < 3) {
@@ -377,7 +381,7 @@ async function callGetElectionTimeline(state, electionType) {
   return {
     state,
     electionType,
-    nextElection: { approximateYear: 2029, phases: electionType === 'Lok Sabha' ? 7 : 1 },
+    nextElection: { approximateYear: CONSTANTS.NEXT_ELECTION_YEAR, phases: electionType === 'Lok Sabha' ? CONSTANTS.ELECTION_STEPS_COUNT : 1 },
     keyDates: {
       registrationDeadline: 'January 2029 (approx)',
       nominationStart: 'March 2029 (approx)',
@@ -438,7 +442,7 @@ async function callGeminiDirect(prompt, language = 'en') {
       body: JSON.stringify({
         system_instruction: { parts: [{ text: systemPrompt }] },
         contents: [{ parts: [{ text: prompt }] }],
-        generationConfig: { temperature: 0.3, maxOutputTokens: 512 }
+        generationConfig: { temperature: CONSTANTS.GEMINI_TEMPERATURE, maxOutputTokens: CONSTANTS.GEMINI_MAX_OUTPUT_TOKENS }
       }),
       signal: AbortSignal.timeout(20000)
     });
@@ -1091,6 +1095,7 @@ function renderCountdown(targetDate) {
     el.textContent = 'Election date to be announced by ECI';
     return;
   }
+  /** @description Recalculates and renders the countdown timer on each tick. Called by setInterval. */
   const update = () => {
     const now = new Date();
     const diff = target - now;
@@ -1559,6 +1564,7 @@ function trapFocus(element) {
   const first = focusable[0];
   const last = focusable[focusable.length - 1];
 
+  /** @description Keyboard event handler that traps Tab focus within the modal element. */
   const handler = (e) => {
     if (e.key !== 'Tab') { return; }
     if (e.shiftKey) {
@@ -1941,6 +1947,7 @@ function runInlineTests() {
   let totalPassed = 0;
   let totalFailed = 0;
 
+  /** @description Executes a named suite of test functions and accumulates pass/fail counts into results. */
   const run = (suiteName, tests) => {
     let passed = 0; let failed = 0;
     tests.forEach(({ name, fn }) => {
@@ -1989,6 +1996,7 @@ function showTestModal(results) {
 
   const pct = results.total > 0 ? Math.round((results.passed / results.total) * 100) : 0;
   const statusColor = pct >= 80 ? '#2E7D32' : pct >= 60 ? '#FF6F00' : '#C62828';
+  /** @description Maps test suite results to HTML table rows for display in the modal. */
   const rowsHtml = (results.suites || []).map((s) => `
     <tr>
       <td style="padding:6px 12px;border-bottom:1px solid #eee">${s.name}</td>

@@ -175,8 +175,10 @@ async function translatePage(targetLang, apiKey) {
 
   await Promise.allSettled(translationPromises);
 
-  // Update document language attribute
-  document.documentElement.lang = targetLang;
+  // Update document language attribute with BCP-47 code for screen readers
+  const langMap = { en: 'en-IN', hi: 'hi-IN', mr: 'mr-IN', ta: 'ta-IN', te: 'te-IN', bn: 'bn-IN' };
+  document.documentElement.lang = langMap[targetLang] || targetLang;
+  document.documentElement.setAttribute('xml:lang', langMap[targetLang] || targetLang);
 
   // Hide loading indicator
   if (langBtn) { langBtn.style.display = 'none'; }

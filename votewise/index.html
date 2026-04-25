@@ -7,6 +7,13 @@
   <meta name="description" content="VoteWise - AI-powered multilingual election literacy assistant for Indian citizens. Learn about voting, voter registration, ECI, and your rights.">
   <meta name="author" content="Tanmay Dalvi">
   <meta name="keywords" content="election, voting, India, ECI, voter registration, Lok Sabha, how to vote, EPIC, EVM, VVPAT, NOTA">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://votewise-app.example.com/">
+  <meta name="application-name" content="VoteWise">
+  <meta name="category" content="Civic Education, Election Literacy">
+
+  <!-- Content Security Policy — inline meta for browser enforcement before nginx headers -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' *.google.com *.gstatic.com apis.google.com www.googleapis.com *.firebaseio.com; style-src 'self' 'unsafe-inline' fonts.googleapis.com; font-src 'self' fonts.gstatic.com data:; connect-src 'self' *.googleapis.com *.firebaseio.com wss://*.firebaseio.com translation.googleapis.com generativelanguage.googleapis.com *.cloudfunctions.net; img-src 'self' data: *.google.com *.gstatic.com; frame-src 'none';">
 
 
   <link rel="manifest" href="manifest.json?v=1.0.1">
@@ -21,17 +28,28 @@
   <link rel="stylesheet" href="styles.css?v=1.0.1">
 
   <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
-    "name": "VoteWise",
-    "description": "AI-powered multilingual election literacy assistant for Indian citizens",
-    "applicationCategory": "EducationApplication",
-    "operatingSystem": "Any",
-    "inLanguage": ["en", "hi", "mr", "ta", "te", "bn"],
-    "author": { "@type": "Person", "name": "Tanmay Dalvi" },
-    "offers": { "@type": "Offer", "price": "0" }
-  }
+  [
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "VoteWise",
+      "description": "AI-powered multilingual election literacy assistant for Indian citizens",
+      "applicationCategory": "EducationalApplication",
+      "operatingSystem": "Any",
+      "inLanguage": ["en-IN", "hi-IN", "mr-IN", "ta-IN", "te-IN", "bn-IN"],
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "INR" },
+      "author": { "@type": "Person", "name": "Tanmay Dalvi" }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "How do I register to vote in India?", "acceptedAnswer": { "@type": "Answer", "text": "Fill Form 6 on voters.eci.gov.in at least 5 days before the electoral roll cutoff date." } },
+        { "@type": "Question", "name": "What is the minimum age to vote in India?", "acceptedAnswer": { "@type": "Answer", "text": "You must be at least 18 years old as of January 1st of the qualifying year." } },
+        { "@type": "Question", "name": "What ID do I need to vote?", "acceptedAnswer": { "@type": "Answer", "text": "You can use your EPIC (Voter ID card) or any of 12 alternate photo IDs approved by ECI including Aadhaar, PAN, or Passport." } }
+      ]
+    }
+  ]
   </script>
 
   <title>VoteWise — Know Your Vote 🗳️</title>
@@ -270,19 +288,19 @@
       <div class="charts-grid">
         <div class="chart-card">
           <h3 data-translate="true">Voter Turnout by Age Group</h3>
-          <div id="chart-donut" aria-label="Donut chart: voter turnout by age group (India 2024)"></div>
+          <div id="chart-donut" aria-label="Donut chart: voter turnout by age group (India 2024)" role="img" tabindex="0"></div>
         </div>
         <div class="chart-card">
           <h3 data-translate="true">Historical Lok Sabha Turnout</h3>
-          <div id="chart-line" aria-label="Line chart: historical election turnout 2009-2024"></div>
+          <div id="chart-line" aria-label="Line chart: historical election turnout 2009-2024" role="img" tabindex="0"></div>
         </div>
         <div class="chart-card">
           <h3 data-translate="true">State-wise Registration Rate</h3>
-          <div id="chart-bar" aria-label="Bar chart: state voter registration rates"></div>
+          <div id="chart-bar" aria-label="Bar chart: state voter registration rates" role="img" tabindex="0"></div>
         </div>
         <div class="chart-card">
           <h3 data-translate="true">2024 Election Phases</h3>
-          <div id="chart-column" aria-label="Column chart: 2024 Lok Sabha phases and constituencies"></div>
+          <div id="chart-column" aria-label="Column chart: 2024 Lok Sabha phases and constituencies" role="img" tabindex="0"></div>
         </div>
       </div>
     </section>

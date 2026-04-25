@@ -1,4 +1,5 @@
-﻿/**
+/* global CONFIG, CONSTANTS, gcpLog */
+/**
  * VoteWise - Complete Test Suite
  * @module tests/votewise.test.js
  * @version 1.0.0
@@ -321,11 +322,22 @@ describe('HTML Escaping', (suite) => {
 // ============ SUITE 16: Security Headers (6 tests) ============
 describe('Security Headers', (suite) => {
   it('CSP meta tag exists in document head', () => { expect(document.querySelector('meta[http-equiv="Content-Security-Policy"]')).not.toBeNull(); }, suite);
+  it('blocks frame-src to prevent clickjacking', () => { expect(document.querySelector('meta[http-equiv="Content-Security-Policy"]').content).toContain("frame-src 'none'"); }, suite);
   it('CSP content includes script-src directive', () => { const csp = document.querySelector('meta[http-equiv="Content-Security-Policy"]'); if (csp) { expect(csp.getAttribute('content')).toContain('script-src'); } else { expect(true).toBeTruthy(); } }, suite);
   it('nonce generation produces 16 char string', () => { expect(_generateNonce().length).toBe(16); }, suite);
   it('nonce contains only alphanumeric characters', () => { expect(_generateNonce()).toMatch(/^[A-Za-z0-9]+$/); }, suite);
   it('two generated nonces are different', () => { expect(_generateNonce()).not.toBe(_generateNonce()); }, suite);
   it('election type validation works correctly', () => { expect(_validateElectionType('lok_sabha')).toBeTruthy(); expect(_validateElectionType('invalid')).toBeFalsy(); }, suite);
+});
+
+describe('Constants & Configuration Integrity', (suite) => {
+  it('CONSTANTS.MAX_INPUT_LENGTH is 200', () => { expect(CONSTANTS.MAX_INPUT_LENGTH).toBe(200); }, suite);
+  it('CONSTANTS.GEMINI_MAX_CALLS is 30', () => { expect(CONSTANTS.GEMINI_MAX_CALLS).toBe(30); }, suite);
+  it('CONSTANTS.ELECTION_STEPS_COUNT is 7', () => { expect(CONSTANTS.ELECTION_STEPS_COUNT).toBe(7); }, suite);
+  it('CONSTANTS.SUPPORTED_LANGUAGES has 6 entries', () => { expect(CONSTANTS.SUPPORTED_LANGUAGES.length).toBe(6); }, suite);
+  it('CONSTANTS.GEMINI_TEMPERATURE is a number between 0 and 1', () => { expect(CONSTANTS.GEMINI_TEMPERATURE).toBeGreaterThan(0); expect(CONSTANTS.GEMINI_TEMPERATURE).toBeLessThan(1); }, suite);
+  it('CONSTANTS.NEXT_ELECTION_YEAR is a future year', () => { expect(CONSTANTS.NEXT_ELECTION_YEAR).toBeGreaterThan(new Date().getFullYear()); }, suite);
+  it('CONSTANTS.LOK_SABHA_CONSTITUENCIES is 543', () => { expect(CONSTANTS.LOK_SABHA_CONSTITUENCIES).toBe(543); }, suite);
 });
 
 // ============ TEST RUNNER ============
