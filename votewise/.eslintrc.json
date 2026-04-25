@@ -1,0 +1,63 @@
+{
+  "env": {
+    "browser": true,
+    "es2022": true,
+    "node": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 2022,
+    "sourceType": "module"
+  },
+  "rules": {
+    "no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }],
+    "no-console": "off",
+    "no-eval": "error",
+    "no-implied-eval": "error",
+    "no-new-func": "error",
+    "no-script-url": "error",
+    "no-alert": "warn",
+    "eqeqeq": ["error", "always"],
+    "curly": ["error", "all"],
+    "no-var": "error",
+    "prefer-const": "warn",
+    "prefer-template": "warn",
+    "no-duplicate-imports": "error",
+    "no-shadow": "warn",
+    "no-undef": "error",
+    "semi": ["error", "always"],
+    "quotes": ["warn", "single", { "avoidEscape": true }],
+    "indent": ["warn", 2, { "SwitchCase": 1 }],
+    "max-len": ["warn", { "code": 120, "ignoreComments": true, "ignoreUrls": true }],
+    "jsdoc/require-jsdoc": "off",
+    "no-restricted-globals": ["error", "event", "name"]
+  },
+  "globals": {
+    "module":           "readonly",
+    "require":          "readonly",
+    "CONFIG":           "readonly",
+    "firebase":         "readonly",
+    "google":           "readonly",
+    "escapeHtml":       "readonly",
+    "sanitizeInput":    "readonly",
+    "validateDOB":      "readonly",
+    "validateLanguageCode": "readonly",
+    "validateStateCode":    "readonly",
+    "translatePage":    "readonly",
+    "detectBrowserLanguage": "readonly",
+    "generateGoogleCalendarURL": "readonly",
+    "downloadICSFile":  "readonly",
+    "addToGoogleCalendar": "readonly",
+    "addAllElectionDates": "readonly",
+    "renderTurnoutDonut":  "readonly",
+    "renderStateRegistrationBar": "readonly",
+    "renderHistoricalTurnoutLine": "readonly",
+    "renderPhaseScheduleColumn":   "readonly",
+    "generateUsageReport": "readonly",
+    "trackEvent":       "readonly",
+    "gcpLog":           "readonly",
+    "validateConfig":   "readonly",
+    "sanitizeCloudFunctionResponse": "readonly",
+    "rateLimiter":      "readonly"
+  },
+  "ignorePatterns": ["functions/", "node_modules/", "*.min.js"]
+}

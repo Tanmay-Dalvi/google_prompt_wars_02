@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#FF6F00">
+  <meta name="description" content="VoteWise - AI-powered multilingual election literacy assistant for Indian citizens. Learn about voting, voter registration, ECI, and your rights.">
+  <meta name="author" content="Tanmay Dalvi">
+  <meta name="keywords" content="election, voting, India, ECI, voter registration, Lok Sabha, how to vote, EPIC, EVM, VVPAT, NOTA">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' cdnjs.cloudflare.com www.gstatic.com apis.google.com www.googleapis.com firebasestorage.googleapis.com *.firebaseio.com; style-src 'self' fonts.googleapis.com cdnjs.cloudflare.com 'unsafe-inline'; font-src fonts.gstatic.com; connect-src 'self' *.googleapis.com *.firebaseio.com wss://*.firebaseio.com translation.googleapis.com generativelanguage.googleapis.com *.cloudfunctions.net; img-src 'self' data:; frame-src 'self' https://*.firebaseio.com;">
+
+  <link rel="manifest" href="manifest.json">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+
+  <link rel="stylesheet" href="styles.css">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "VoteWise",
+    "description": "AI-powered multilingual election literacy assistant for Indian citizens",
+    "applicationCategory": "EducationApplication",
+    "operatingSystem": "Any",
+    "inLanguage": ["en", "hi", "mr", "ta", "te", "bn"],
+    "author": { "@type": "Person", "name": "Tanmay Dalvi" },
+    "offers": { "@type": "Offer", "price": "0" }
+  }
+  </script>
+
+  <title>VoteWise — Know Your Vote 🗳️</title>
+</head>
+
+<body>
+
+  <a href="#main-content" class="skip-link" id="skip-link">Skip to main content</a>
+
+  <div id="toast-container" aria-live="polite" aria-atomic="true" role="status"></div>
+
+  <header role="banner">
+    <div class="header-inner">
+      <div class="logo" aria-label="VoteWise home">
+        <span class="logo-icon" aria-hidden="true">🗳️</span>
+        <span class="logo-text">
+          <span class="logo-vote">Vote</span><span class="logo-wise">Wise</span>
+        </span>
+      </div>
+
+      <nav class="lang-switcher" aria-label="Language selection">
+        <button class="lang-btn lang-active" data-lang="en" aria-pressed="true" aria-label="Switch to English">EN</button>
+        <button class="lang-btn" data-lang="hi" aria-pressed="false" aria-label="Switch to Hindi">हिं</button>
+        <button class="lang-btn" data-lang="mr" aria-pressed="false" aria-label="Switch to Marathi">मर</button>
+        <button class="lang-btn" data-lang="ta" aria-pressed="false" aria-label="Switch to Tamil">தமி</button>
+        <button class="lang-btn" data-lang="te" aria-pressed="false" aria-label="Switch to Telugu">తెలు</button>
+        <button class="lang-btn" data-lang="bn" aria-pressed="false" aria-label="Switch to Bengali">বাং</button>
+      </nav>
+
+      <div class="header-actions">
+        <span id="lang-loading-indicator" class="spinner-small" aria-label="Translating..." role="status"></span>
+        <button id="dark-mode-toggle" class="icon-btn" aria-label="Toggle dark mode">🌙</button>
+        <button id="share-btn" class="icon-btn" aria-label="Share VoteWise">📤</button>
+      </div>
+    </div>
+    <div id="alerts-banner" class="alerts-banner" aria-live="assertive" role="alert" aria-atomic="true"></div>
+  </header>
+
+  <main id="main-content" role="main">
+
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-content">
+        <h1 id="hero-title" data-translate="true">
+          Understand Your Vote. <span class="accent">Know Your Rights.</span>
+        </h1>
+        <p class="hero-sub" data-translate="true">
+          AI-powered election literacy for every Indian citizen — in your language, at your pace.
+        </p>
+        <div class="live-stats-strip" aria-live="polite" role="status">
+          <span class="live-dot" aria-hidden="true">🟢</span>
+          <span>Live</span>
+          <span id="live-visitor-count" aria-label="Live session count">—</span>
+          <span>sessions</span>
+          <span aria-hidden="true">|</span>
+          <span id="total-questions-count" aria-label="Total questions answered">—</span>
+          <span>questions answered</span>
+          <span aria-hidden="true">|</span>
+          <span>Powered by Gemini AI</span>
+        </div>
+      </div>
+      <div class="progress-container" aria-label="Your election guide progress">
+        <div class="progress-header">
+          <span id="progress-text" class="progress-text" aria-live="polite">You've completed 0 of 7 steps</span>
+        </div>
+        <div class="progress-bar-track" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" aria-label="Progress through election guide">
+          <div id="progress-bar" class="progress-bar-fill"></div>
+        </div>
+      </div>
+    </section>
+
+    <nav class="tab-nav" role="tablist" aria-label="VoteWise sections">
+      <button class="tab-btn tab-active" role="tab" data-tab="guide" id="tab-guide" aria-controls="panel-guide" aria-selected="true">
+        <span aria-hidden="true">📋</span> <span data-translate="true">Election Guide</span>
+      </button>
+      <button class="tab-btn" role="tab" data-tab="assistant" id="tab-assistant" aria-controls="panel-assistant" aria-selected="false">
+        <span aria-hidden="true">🤖</span> <span data-translate="true">AI Assistant</span>
+      </button>
+      <button class="tab-btn" role="tab" data-tab="timeline" id="tab-timeline" aria-controls="panel-timeline" aria-selected="false">
+        <span aria-hidden="true">📅</span> <span data-translate="true">Timeline</span>
+      </button>
+      <button class="tab-btn" role="tab" data-tab="eligibility" id="tab-eligibility" aria-controls="panel-eligibility" aria-selected="false">
+        <span aria-hidden="true">✅</span> <span data-translate="true">Eligibility</span>
+      </button>
+      <button class="tab-btn" role="tab" data-tab="stats" id="tab-stats" aria-controls="panel-stats" aria-selected="false">
+        <span aria-hidden="true">📊</span> <span data-translate="true">Stats</span>
+      </button>
+      <button class="tab-btn" role="tab" data-tab="glossary" id="tab-glossary" aria-controls="panel-glossary" aria-selected="false">
+        <span aria-hidden="true">📖</span> <span data-translate="true">Glossary</span>
+      </button>
+    </nav>
+
+    <!-- PANEL 1: Election Guide -->
+    <section id="panel-guide" class="tab-panel panel-active" role="tabpanel" aria-labelledby="tab-guide" aria-hidden="false">
+      <div class="panel-header">
+        <h2 data-translate="true">Your Election Journey</h2>
+        <p data-translate="true">Follow these 7 steps to become a confident voter</p>
+      </div>
+      <div id="election-steps-container" aria-label="Election steps accordion">
+        <!-- Rendered by renderElectionSteps() in app.js -->
+      </div>
+    </section>
+
+    <!-- PANEL 2: AI Assistant -->
+    <section id="panel-assistant" class="tab-panel" role="tabpanel" aria-labelledby="tab-assistant" aria-hidden="true" hidden>
+      <div class="panel-header">
+        <h2 data-translate="true">Ask VoteWise AI</h2>
+        <p data-translate="true">Ask any question about Indian elections in plain language</p>
+      </div>
+      <div class="assistant-panel-inner">
+        <div class="quick-questions-grid" id="panel-quick-questions" aria-label="Quick question suggestions">
+          <!-- Rendered by renderQuickQuestions() -->
+        </div>
+        <div class="inline-chat-container">
+          <div id="panel-chat-history" class="chat-history-panel" aria-live="polite" aria-label="Chat conversation" role="log"></div>
+          <div class="chat-input-row">
+            <label for="panel-chat-input" class="visually-hidden">Your election question</label>
+            <input type="text" id="panel-chat-input" class="chat-input" placeholder="Ask about elections, voting, registration..." aria-label="Type your election question" maxlength="500" autocomplete="off">
+            <button id="panel-chat-send" class="send-btn" aria-label="Send your question">Send ➤</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PANEL 3: Timeline -->
+    <section id="panel-timeline" class="tab-panel" role="tabpanel" aria-labelledby="tab-timeline" aria-hidden="true" hidden>
+      <div class="panel-header">
+        <h2 data-translate="true">Election Timeline</h2>
+        <p data-translate="true">Track upcoming elections and key dates for your state</p>
+      </div>
+      <div class="timeline-filters">
+        <div class="form-group">
+          <label for="timeline-state" data-translate="true">Select Your State</label>
+          <select id="timeline-state" aria-label="Select state for election timeline">
+            <option value="Maharashtra">Maharashtra</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="timeline-type" data-translate="true">Election Type</label>
+          <select id="timeline-type" aria-label="Select election type">
+            <option value="Lok Sabha">Lok Sabha</option>
+            <option value="Vidhan Sabha">Vidhan Sabha</option>
+            <option value="Local Body">Local Body</option>
+          </select>
+        </div>
+      </div>
+      <div id="election-countdown" class="countdown-card" aria-live="polite" role="status" aria-label="Days until next election"></div>
+      <div id="timeline-container" aria-label="Election timeline stepper">
+        <!-- Rendered by renderTimeline() -->
+      </div>
+    </section>
+
+    <!-- PANEL 4: Eligibility Checker -->
+    <section id="panel-eligibility" class="tab-panel" role="tabpanel" aria-labelledby="tab-eligibility" aria-hidden="true" hidden>
+      <div class="panel-header">
+        <h2 data-translate="true">Check Your Eligibility</h2>
+        <p data-translate="true">Find out if you can vote in the next Indian election</p>
+      </div>
+      <div class="eligibility-layout">
+        <div class="eligibility-form-card">
+          <form id="eligibility-form" novalidate aria-label="Voter eligibility checker form">
+            <div class="form-group">
+              <label for="elig-dob" data-translate="true">Date of Birth <span class="required" aria-label="required">*</span></label>
+              <input type="date" id="elig-dob" name="dob" aria-required="true" aria-describedby="dob-hint">
+              <span id="dob-hint" class="form-hint">Must be 18+ as of the election date</span>
+            </div>
+            <div class="form-group">
+              <label for="elig-citizen" data-translate="true">Are you an Indian citizen? <span class="required" aria-label="required">*</span></label>
+              <select id="elig-citizen" name="citizen" aria-required="true">
+                <option value="">Select...</option>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="elig-state" data-translate="true">State of Residence <span class="required" aria-label="required">*</span></label>
+              <select id="elig-state" name="state" aria-required="true">
+                <option value="">Select your state...</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="elig-address" data-translate="true">Do you have a registered address in India? <span class="required" aria-label="required">*</span></label>
+              <select id="elig-address" name="address" aria-required="true">
+                <option value="">Select...</option>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="elig-prison" data-translate="true">Are you currently serving a prison sentence? <span class="required" aria-label="required">*</span></label>
+              <select id="elig-prison" name="prison" aria-required="true">
+                <option value="">Select...</option>
+                <option value="no">No</option>
+                <option value="yes">Yes</option>
+              </select>
+            </div>
+            <button type="submit" id="elig-submit" class="btn btn-primary btn-full" aria-label="Check my voting eligibility">
+              ✅ Check My Eligibility
+            </button>
+          </form>
+        </div>
+        <div id="eligibility-result" class="eligibility-result-panel" aria-live="polite" role="status" hidden>
+          <!-- Rendered by renderEligibilityResult() -->
+        </div>
+      </div>
+    </section>
+
+    <!-- PANEL 5: Stats Dashboard -->
+    <section id="panel-stats" class="tab-panel" role="tabpanel" aria-labelledby="tab-stats" aria-hidden="true" hidden>
+      <div class="panel-header">
+        <h2 data-translate="true">Indian Election Statistics</h2>
+        <p data-translate="true">Official data from Election Commission of India reports</p>
+      </div>
+      <div class="stats-cards-row" role="list" aria-label="Key election statistics">
+        <div class="stat-card" role="listitem">
+          <div class="stat-number">96.8 Cr</div>
+          <div class="stat-label" data-translate="true">Registered Voters</div>
+        </div>
+        <div class="stat-card" role="listitem">
+          <div class="stat-number">36</div>
+          <div class="stat-label" data-translate="true">States &amp; UTs</div>
+        </div>
+        <div class="stat-card" role="listitem">
+          <div class="stat-number">10.5 L</div>
+          <div class="stat-label" data-translate="true">Polling Stations</div>
+        </div>
+        <div class="stat-card" role="listitem">
+          <div class="stat-number">7</div>
+          <div class="stat-label" data-translate="true">Phases in 2024</div>
+        </div>
+      </div>
+      <div class="live-firebase-stats" aria-live="polite" role="status">
+        <span>🔴 Live Firebase:</span>
+        <strong id="total-sessions-count">—</strong>
+        <span>total sessions</span>
+      </div>
+      <div class="charts-grid">
+        <div class="chart-card">
+          <h3 data-translate="true">Voter Turnout by Age Group</h3>
+          <div id="chart-donut" aria-label="Donut chart: voter turnout by age group (India 2024)"></div>
+        </div>
+        <div class="chart-card">
+          <h3 data-translate="true">Historical Lok Sabha Turnout</h3>
+          <div id="chart-line" aria-label="Line chart: historical election turnout 2009-2024"></div>
+        </div>
+        <div class="chart-card">
+          <h3 data-translate="true">State-wise Registration Rate</h3>
+          <div id="chart-bar" aria-label="Bar chart: state voter registration rates"></div>
+        </div>
+        <div class="chart-card">
+          <h3 data-translate="true">2024 Election Phases</h3>
+          <div id="chart-column" aria-label="Column chart: 2024 Lok Sabha phases and constituencies"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PANEL 6: Glossary -->
+    <section id="panel-glossary" class="tab-panel" role="tabpanel" aria-labelledby="tab-glossary" aria-hidden="true" hidden>
+      <div class="panel-header">
+        <h2 data-translate="true">Election Glossary</h2>
+        <p data-translate="true">30 key terms explained in simple language</p>
+      </div>
+      <div class="glossary-search-row">
+        <label for="glossary-search" class="visually-hidden">Search glossary terms</label>
+        <input type="search" id="glossary-search" class="glossary-search-input" placeholder="🔍 Search election terms..." aria-label="Search election glossary" maxlength="100" autocomplete="off">
+        <span id="glossary-count" class="glossary-count" aria-live="polite" role="status">30 terms</span>
+      </div>
+      <div id="glossary-az-index" class="az-index" aria-label="Filter glossary by letter" role="group">
+        <!-- Rendered by initGlossary() -->
+      </div>
+      <div id="glossary-container" class="glossary-grid" aria-label="Election glossary terms">
+        <!-- Rendered by renderGlossary() -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FLOATING CHAT FAB -->
+  <button id="chat-fab" class="chat-fab" aria-label="Open VoteWise AI election assistant" aria-expanded="false" aria-controls="chat-panel" title="Ask VoteWise AI">
+    🤖
+  </button>
+
+  <!-- FLOATING CHAT PANEL -->
+  <div id="chat-panel" class="chat-panel" role="dialog" aria-modal="true" aria-labelledby="chat-title" aria-hidden="true" hidden>
+    <div class="chat-header">
+      <div class="chat-title-row">
+        <span id="chat-title" class="chat-title-text">🗳️ VoteWise AI Assistant</span>
+        <span class="chat-status-dot" aria-hidden="true">●</span>
+      </div>
+      <button id="chat-close" class="chat-close-btn" aria-label="Close AI assistant chat panel">✕</button>
+    </div>
+    <div id="quick-questions-container" class="quick-questions-container" aria-label="Suggested questions">
+      <!-- Rendered by renderQuickQuestions() -->
+    </div>
+    <div id="chat-history" class="chat-history" aria-live="polite" aria-label="Chat conversation" role="log">
+      <div class="chat-welcome">
+        <p>👋 Namaste! I'm VoteWise AI. Ask me anything about Indian elections, voter registration, your rights, or the voting process.</p>
+      </div>
+    </div>
+    <div class="chat-input-area">
+      <label for="chat-input" class="visually-hidden">Your election question</label>
+      <input type="text" id="chat-input" class="chat-input" placeholder="Ask about elections..." aria-label="Type your election question here" maxlength="500" autocomplete="off">
+      <button id="chat-send" class="send-btn" aria-label="Send your question to VoteWise AI">➤</button>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer role="contentinfo">
+    <div class="footer-inner">
+      <p class="footer-disclaimer">
+        ⚠️ VoteWise is an independent civic education tool. For official information visit
+        <a href="https://eci.gov.in" target="_blank" rel="noopener noreferrer" aria-label="Election Commission of India official website (opens in new tab)">eci.gov.in</a>
+      </p>
+      <nav class="footer-links" aria-label="Official election resources">
+        <a href="https://eci.gov.in" target="_blank" rel="noopener noreferrer">ECI Portal</a>
+        <a href="https://www.nvsp.in" target="_blank" rel="noopener noreferrer">NVSP Portal</a>
+        <a href="https://voters.eci.gov.in" target="_blank" rel="noopener noreferrer">Voter Services</a>
+        <a href="tel:1950" aria-label="Voter helpline telephone number 1950">☎️ Helpline: 1950</a>
+      </nav>
+      <p class="footer-credit">
+        Built with ❤️ by <strong>Tanmay Dalvi</strong> for PromptWars Virtual Round 2 — Google for Developers × Hack2Skill 2026
+      </p>
+    </div>
+  </footer>
+
+  <!-- SCRIPTS — load order matters -->
+  <script src="config.js"></script>
+  <script src="security.js"></script>
+  <script src="translate.js"></script>
+  <script src="calendar.js"></script>
+  <script src="analytics.js"></script>
+  <script src="app.js"></script>
+
+</body>
+</html>

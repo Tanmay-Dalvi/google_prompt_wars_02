@@ -1,0 +1,23 @@
+# Dependencies
+node_modules/
+functions/node_modules/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Environment (GEMINI_API_KEY stored in Secret Manager)
+functions/.env.local
+functions/.env.*.local
+
+# Runtime
+.DS_Store
+Thumbs.db
+
+# Build artifacts
+dist/
+build/
+
+# NOTE: config.js is intentionally NOT ignored.
+# Per hackathon requirements, API keys must be visible to the evaluator.
+# In production, use Secret Manager instead.

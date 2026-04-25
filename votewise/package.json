@@ -1,0 +1,47 @@
+{
+  "name": "votewise",
+  "version": "1.0.0",
+  "description": "VoteWise - AI-powered multilingual election literacy assistant for Indian citizens",
+  "author": "Tanmay Dalvi",
+  "license": "MIT",
+  "private": false,
+  "homepage": "https://github.com/Tanmay-Dalvi/google_prompt_wars_02",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Tanmay-Dalvi/google_prompt_wars_02.git"
+  },
+  "keywords": [
+    "election",
+    "voting",
+    "india",
+    "ECI",
+    "civic-education",
+    "gemini-ai",
+    "google-cloud",
+    "firebase",
+    "multilingual",
+    "accessibility",
+    "PWA"
+  ],
+  "scripts": {
+    "lint": "eslint *.js --ext .js",
+    "lint:fix": "eslint *.js --ext .js --fix",
+    "test": "node --experimental-vm-modules tests/votewise.test.js",
+    "serve": "npx serve . -p 3000",
+    "deploy": "firebase deploy --only hosting",
+    "validate": "npm run lint && echo Lint OK"
+  },
+  "devDependencies": {
+    "eslint": "^8.57.0",
+    "puppeteer": "^24.42.0",
+    "serve": "^14.2.3"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ]
+}
