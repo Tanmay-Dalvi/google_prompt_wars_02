@@ -1698,6 +1698,17 @@ function appendChatMessage(role, content) {
   const isUser = role === 'user';
   const msgId = `msg-${Date.now()}`;
   const esc = typeof escapeHtml === 'function' ? escapeHtml : (s) => s;
+
+  /**
+   * Simple markdown parser for bold and line breaks.
+   * Applied after HTML escaping for security.
+   */
+  const formatMarkdown = (text) => {
+    return text
+      .replace(/\*\*(.*?)\*\*/g, '<b>$1</b>') // Bold: **text** -> <b>text</b>
+      .replace(/\*(.*?)\*/g, '<i>$1</i>')   // Italics: *text* -> <i>text</i>
+      .replace(/\n/g, '<br>');               // Newlines -> <br>
+  };
   
   const copyBtn = role === 'assistant'
     ? '<button class="chat-copy-btn" onclick="navigator.clipboard.writeText(this.closest(\'.chat-message\').querySelector(\'.chat-content\').innerText).then(()=>showToast(\'Copied!\',\'success\'))" aria-label="Copy response">📋</button>'
@@ -1707,7 +1718,7 @@ function appendChatMessage(role, content) {
     <div class="chat-message chat-${role}" id="${msgId}" role="article" aria-label="${isUser ? 'Your question' : 'VoteWise answer'}">
       <div class="chat-avatar" aria-hidden="true">${isUser ? '👤' : '🗳️'}</div>
       <div class="chat-bubble">
-        <p class="chat-content">${esc(content)}</p>
+        <p class="chat-content">${formatMarkdown(esc(content))}</p>
         ${copyBtn}
       </div>
     </div>`;
