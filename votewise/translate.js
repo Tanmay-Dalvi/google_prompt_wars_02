@@ -1,3 +1,4 @@
+/* global gcpLog, CONFIG */
 /**
  * VoteWise - AI-Powered Election Literacy Assistant
  * @module translate

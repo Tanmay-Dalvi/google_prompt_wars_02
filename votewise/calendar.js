@@ -1,3 +1,4 @@
+/* global gcpLog */
 /**
  * VoteWise - AI-Powered Election Literacy Assistant
  * @module calendar

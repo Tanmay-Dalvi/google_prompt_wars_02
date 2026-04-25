@@ -182,7 +182,7 @@ exports.askElectionAI = onRequest(
         language: sanitizedLang,
         confidence: 0.92,
         timestamp: new Date().toISOString(),
-        source: 'gemini-2.0-flash'
+        source: 'gemini-2.5-flash'
       });
 
     } catch (err) {
