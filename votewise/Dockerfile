@@ -28,9 +28,16 @@ COPY nginx.conf      /etc/nginx/conf.d/default.conf
 # Copy test folder (for reference, not served)
 COPY tests/          /usr/share/nginx/html/tests/
 
-# Set correct permissions
+# Set correct permissions and fix PID file for non-root execution
 RUN chown -R nginx:nginx /usr/share/nginx/html && \
-    chmod -R 755 /usr/share/nginx/html
+    chmod -R 755 /usr/share/nginx/html && \
+    chown -R nginx:nginx /var/cache/nginx /var/log/nginx /etc/nginx/conf.d && \
+    chmod -R 777 /var/cache/nginx /var/log/nginx /etc/nginx/conf.d && \
+    touch /var/run/nginx.pid && \
+    chown -R nginx:nginx /var/run/nginx.pid
+
+# Move PID file to a writable location
+RUN sed -i 's|/var/run/nginx.pid|/tmp/nginx.pid|g' /etc/nginx/nginx.conf
 
 # Drop root — run as nginx user
 USER nginx
