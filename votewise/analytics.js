@@ -61,8 +61,8 @@ const PHASE_SCHEDULE_DATA = [
 
 /** @type {boolean} - Track whether Google Charts is loaded */
 let chartsLoaded = false;
-
-// ============ CHART LOADING ============
+/** @type {Promise<void>|null} - Global promise for chart loading state */
+let chartsLoadingPromise = null;
 
 /**
  * Ensures Google Charts library is loaded before rendering.
@@ -70,28 +70,37 @@ let chartsLoaded = false;
  * @returns {Promise<void>}
  */
 function ensureChartsLoaded() {
-  return new Promise((resolve) => {
-    if (chartsLoaded) { resolve(); return; }
-    if (typeof google === 'undefined' || !google.charts) {
-      // Load Google Charts dynamically
-      const script = document.createElement('script');
-      script.src = 'https://www.gstatic.com/charts/loader.js';
-      script.onload = () => {
-        google.charts.load('current', { packages: ['corechart', 'bar', 'line'] });
+  if (chartsLoaded) return Promise.resolve();
+  if (chartsLoadingPromise) return chartsLoadingPromise;
+
+  chartsLoadingPromise = new Promise((resolve, reject) => {
+    const startLoading = () => {
+      try {
+        google.charts.load('current', { 
+          packages: ['corechart', 'bar', 'line'],
+          language: localStorage.getItem('vw_language') || 'en'
+        });
         google.charts.setOnLoadCallback(() => {
           chartsLoaded = true;
           resolve();
         });
-      };
+      } catch (err) {
+        reject(err);
+      }
+    };
+
+    if (typeof google === 'undefined' || !google.charts) {
+      const script = document.createElement('script');
+      script.src = 'https://www.gstatic.com/charts/loader.js';
+      script.onload = startLoading;
+      script.onerror = () => reject(new Error('Failed to load Google Charts script'));
       document.head.appendChild(script);
     } else {
-      google.charts.load('current', { packages: ['corechart', 'bar', 'line'] });
-      google.charts.setOnLoadCallback(() => {
-        chartsLoaded = true;
-        resolve();
-      });
+      startLoading();
     }
   });
+
+  return chartsLoadingPromise;
 }
 
 // ============ CHART RENDERERS ============

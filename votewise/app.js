@@ -1347,7 +1347,7 @@ function initTabs() {
           if (typeof renderHistoricalTurnoutLine === 'function') { renderHistoricalTurnoutLine('chart-line'); }
           if (typeof renderPhaseScheduleColumn === 'function') { renderPhaseScheduleColumn('chart-column'); }
           if (typeof generateUsageReport === 'function') { generateUsageReport(); }
-        }, 100);
+        }, 500);
       }
     }
     gcpLog('INFO', 'Tab activated', { tabId });
