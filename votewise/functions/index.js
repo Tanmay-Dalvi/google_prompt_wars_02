@@ -114,7 +114,7 @@ function getTimelineForState(state, electionType) {
 // ============ FUNCTION 1: askElectionAI ============
 
 exports.askElectionAI = onRequest(
-  { secrets: ['GEMINI_API_KEY'], cors: true, region: 'us-central1' },
+  { secrets: ['GEMINI_API_KEY'], cors: true, region: 'asia-south1' },
   async (req, res) => {
     setCORSHeaders(res);
     if (req.method === 'OPTIONS') { res.status(204).send(''); return; }
@@ -194,7 +194,7 @@ exports.askElectionAI = onRequest(
 // ============ FUNCTION 2: getElectionTimeline ============
 
 exports.getElectionTimeline = onRequest(
-  { cors: true, region: 'us-central1' },
+  { cors: true, region: 'asia-south1' },
   async (req, res) => {
     setCORSHeaders(res);
     if (req.method === 'OPTIONS') { res.status(204).send(''); return; }
