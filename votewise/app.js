@@ -2167,3 +2167,19 @@ document.addEventListener('keydown', (e) => {
     document.getElementById('dark-mode-toggle')?.click();
   }
 });
+
+// ============ RESPONSIVE CHARTS ============
+
+let resizeTimer;
+window.addEventListener('resize', () => {
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(() => {
+    const activeTab = localStorage.getItem('vw_active_tab');
+    if (activeTab === 'stats') {
+      if (typeof renderTurnoutDonut === 'function') { renderTurnoutDonut('chart-donut'); }
+      if (typeof renderStateRegistrationBar === 'function') { renderStateRegistrationBar('chart-bar'); }
+      if (typeof renderHistoricalTurnoutLine === 'function') { renderHistoricalTurnoutLine('chart-line'); }
+      if (typeof renderPhaseScheduleColumn === 'function') { renderPhaseScheduleColumn('chart-column'); }
+    }
+  }, 250);
+});
