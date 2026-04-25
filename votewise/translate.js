@@ -146,7 +146,8 @@ async function translateText(text, targetLang, apiKey) {
  * @returns {Promise<void>}
  */
 async function translatePage(targetLang, apiKey) {
-  const elements = document.querySelectorAll('[data-translate="true"]');
+  // Target specific marked elements OR common text containers that aren't excluded
+  const elements = document.querySelectorAll('[data-translate="true"], h1, h2, h3, h4, h5, p, li, .card-title, .stat-label, .timeline-date, .step-title');
   if (!elements.length) { return; }
   gcpLog('INFO', 'Google Translate API: translating page', { targetLang, elementCount: elements.length });
 

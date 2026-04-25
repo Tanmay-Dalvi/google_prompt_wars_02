@@ -517,21 +517,21 @@ const ELECTION_STEPS = [
   {
     id: 1, icon: '📋', title: 'Check Voter Eligibility',
     summary: 'Find out if you qualify to vote in Indian elections.',
-    content: '<p>Before registering, confirm you meet all ECI eligibility criteria:</p><ul><li><strong>Age:</strong> You must be at least 18 years old as of the qualifying date (January 1 of the election year).</li><li><strong>Citizenship:</strong> You must be an Indian citizen. NRIs can also register under the Overseas Voter scheme.</li><li><strong>Residency:</strong> You must be an ordinary resident of the constituency where you wish to register.</li><li><strong>Mental capacity:</strong> You must not have been declared of unsound mind by a competent court.</li><li><strong>Criminal status:</strong> You must not be serving a sentence of imprisonment after conviction of a crime.</li><li><strong>Disqualification:</strong> You must not be disqualified under the Representation of the People Act, 1951.</li></ul><p>Use ECI\'s official eligibility checker at <a href="https://eci.gov.in" target="_blank" rel="noopener">eci.gov.in</a> or call Voter Helpline <strong>1950</strong>.</p>',
+    content: '<p data-translate="true">Before registering, confirm you meet all ECI eligibility criteria:</p><ul><li data-translate="true"><strong>Age:</strong> You must be at least 18 years old as of the qualifying date (January 1 of the election year).</li><li data-translate="true"><strong>Citizenship:</strong> You must be an Indian citizen. NRIs can also register under the Overseas Voter scheme.</li><li data-translate="true"><strong>Residency:</strong> You must be an ordinary resident of the constituency where you wish to register.</li><li data-translate="true"><strong>Mental capacity:</strong> You must not have been declared of unsound mind by a competent court.</li><li data-translate="true"><strong>Criminal status:</strong> You must not be serving a sentence of imprisonment after conviction of a crime.</li><li data-translate="true"><strong>Disqualification:</strong> You must not be disqualified under the Representation of the People Act, 1951.</li></ul><p data-translate="true">Use ECI\'s official eligibility checker at <a href="https://eci.gov.in" target="_blank" rel="noopener">eci.gov.in</a> or call Voter Helpline <strong>1950</strong>.</p>',
     aiQuestion: 'What are the eligibility criteria to vote in India?',
     completed: false
   },
   {
     id: 2, icon: '📝', title: 'Register to Vote — Form 6',
     summary: 'Complete Form 6 online or offline to get on the electoral roll.',
-    content: '<p>If you are a first-time voter or have moved to a new constituency, you must register using <strong>Form 6</strong>:</p><ul><li><strong>Online:</strong> Visit <a href="https://www.nvsp.in" target="_blank" rel="noopener">nvsp.in</a> (National Voters\' Service Portal) and fill Form 6 digitally.</li><li><strong>Offline:</strong> Collect Form 6 from your local Electoral Registration Officer (ERO) or Booth Level Officer (BLO).</li><li><strong>Documents needed:</strong> Aadhaar card, address proof (utility bill, rent agreement), recent passport-size photograph.</li><li><strong>Deadline:</strong> Registration cutoff is typically 45 days before the election date — do not wait!</li><li><strong>Verification:</strong> After submission, a BLO may visit your address to verify residence details.</li><li><strong>Status check:</strong> Track your registration status on nvsp.in using your reference number.</li></ul><p>Once registered, your name appears on the Electoral Roll and you receive your EPIC (Voter ID card).</p>',
+    content: '<p data-translate="true">If you are a first-time voter or have moved to a new constituency, you must register using <strong data-translate="true">Form 6</strong>:</p><ul data-translate="true"><li data-translate="true"><strong data-translate="true">Online:</strong> Visit <a href="https://www.nvsp.in" target="_blank" rel="noopener">nvsp.in</a> (National Voters\' Service Portal) and fill Form 6 digitally.</li><li data-translate="true"><strong data-translate="true">Offline:</strong> Collect Form 6 from your local Electoral Registration Officer (ERO) or Booth Level Officer (BLO).</li><li data-translate="true"><strong data-translate="true">Documents needed:</strong> Aadhaar card, address proof (utility bill, rent agreement), recent passport-size photograph.</li><li data-translate="true"><strong data-translate="true">Deadline:</strong> Registration cutoff is typically 45 days before the election date — do not wait!</li><li data-translate="true"><strong data-translate="true">Verification:</strong> After submission, a BLO may visit your address to verify residence details.</li><li data-translate="true"><strong data-translate="true">Status check:</strong> Track your registration status on nvsp.in using your reference number.</li></ul><p data-translate="true">Once registered, your name appears on the Electoral Roll and you receive your EPIC (Voter ID card).</p>',
     aiQuestion: 'How do I register to vote in India using Form 6?',
     completed: false
   },
   {
     id: 3, icon: '🪪', title: 'Get Your Voter ID — EPIC',
     summary: 'Obtain or download your Electronic Photo Identity Card (EPIC).',
-    content: '<p>Your <strong>EPIC (Electoral Photo Identity Card)</strong>, commonly called the Voter ID, is your primary proof of voter registration:</p><ul><li><strong>What is EPIC:</strong> It is a government-issued photo ID card issued by the Election Commission of India (ECI) to every registered voter.</li><li><strong>Download e-EPIC:</strong> Download a digital copy from <a href="https://voters.eci.gov.in" target="_blank" rel="noopener">voters.eci.gov.in</a> — it is legally valid and accepted at polling booths.</li><li><strong>Physical card:</strong> A physical EPIC card is posted to your registered address after verification is complete.</li><li><strong>Check Electoral Roll:</strong> Verify your name is on the electoral roll at electoralsearch.eci.gov.in before election day.</li><li><strong>Lost or damaged EPIC:</strong> Apply for a duplicate using Form 002 on the NVSP portal.</li><li><strong>Update details:</strong> Use Form 8 to correct errors or update address/photo on your existing EPIC.</li></ul><p>Even without EPIC, you can vote using 12 alternate government-approved IDs including Aadhaar, PAN card, or Passport.</p>',
+    content: '<p data-translate="true">Your <strong data-translate="true">EPIC (Electoral Photo Identity Card)</strong>, commonly called the Voter ID, is your primary proof of voter registration:</p><ul data-translate="true"><li data-translate="true"><strong data-translate="true">What is EPIC:</strong> It is a government-issued photo ID card issued by the Election Commission of India (ECI) to every registered voter.</li><li data-translate="true"><strong data-translate="true">Download e-EPIC:</strong> Download a digital copy from <a href="https://voters.eci.gov.in" target="_blank" rel="noopener">voters.eci.gov.in</a> — it is legally valid and accepted at polling booths.</li><li data-translate="true"><strong data-translate="true">Physical card:</strong> A physical EPIC card is posted to your registered address after verification is complete.</li><li data-translate="true"><strong data-translate="true">Check Electoral Roll:</strong> Verify your name is on the electoral roll at electoralsearch.eci.gov.in before election day.</li><li data-translate="true"><strong data-translate="true">Lost or damaged EPIC:</strong> Apply for a duplicate using Form 002 on the NVSP portal.</li><li data-translate="true"><strong data-translate="true">Update details:</strong> Use Form 8 to correct errors or update address/photo on your existing EPIC.</li></ul><p data-translate="true">Even without EPIC, you can vote using 12 alternate government-approved IDs including Aadhaar, PAN card, or Passport.</p>',
     aiQuestion: 'How do I download my e-EPIC voter ID card?',
     completed: false
   },
@@ -1030,8 +1030,8 @@ function renderTimeline(timeline, state) {
         <span class="timeline-phase-num">${p.phase}</span>
       </div>
       <div class="timeline-label">
-        <span class="timeline-phase-title">Phase ${p.phase}</span>
-        <span class="timeline-phase-date">${esc(p.month || '')}</span>
+        <span class="timeline-phase-title" data-translate="true">Phase ${p.phase}</span>
+        <span class="timeline-phase-date" data-translate="true">${esc(p.month || '')}</span>
       </div>
     </div>
     ${i < phases.length - 1 ? '<div class="timeline-connector" aria-hidden="true"></div>' : ''}
@@ -1047,12 +1047,12 @@ function renderTimeline(timeline, state) {
 
   const dateCardsHtml = keyDateEntries.map((entry) => `
     <div class="timeline-date-card" id="timeline-card-${entry.key}">
-      <div class="timeline-date-label">${esc(entry.label)}</div>
-      <div class="timeline-date-value">${esc(entry.date || 'TBA')}</div>
+      <div class="timeline-date-label" data-translate="true">${esc(entry.label)}</div>
+      <div class="timeline-date-value" data-translate="true">${esc(entry.date || 'TBA')}</div>
       <button class="btn btn-outline btn-sm timeline-cal-btn"
         onclick='addToGoogleCalendar({title:"🗳️ ${esc(entry.label)} - ${esc(state)}",startDate:"${timeline.nextElectionYear || 2029}-04-01",description:"${esc(entry.label)} for ${esc(state)} elections."})'
         aria-label="Add ${esc(entry.label)} to Google Calendar">
-        📅 Add to Calendar
+        📅 <span data-translate="true">Add to Calendar</span>
       </button>
     </div>
   `).join('');
@@ -1060,12 +1060,12 @@ function renderTimeline(timeline, state) {
   const nextYear = timeline.nextElectionYear || 2029;
   requestAnimationFrame(() => {
     container.innerHTML = `
-      <h3 class="timeline-heading">🗺️ Election Timeline — ${esc(state)}</h3>
-      <p class="timeline-subheading">Approximate schedule for ${esc(timeline.electionType || 'Next Election')} ${nextYear}</p>
+      <h3 class="timeline-heading" data-translate="true">🗺️ Election Timeline — ${esc(state)}</h3>
+      <p class="timeline-subheading" data-translate="true">Approximate schedule for ${esc(timeline.electionType || 'Next Election')} ${nextYear}</p>
       <div class="timeline-stepper" role="list" aria-label="Election phases">${phasesHtml}</div>
       <div class="timeline-date-cards">${dateCardsHtml}</div>
       <div class="timeline-footer">
-        <a href="${esc(timeline.eciFaqUrl || 'https://eci.gov.in')}" target="_blank" rel="noopener" class="btn btn-outline">
+        <a href="${esc(timeline.eciFaqUrl || 'https://eci.gov.in')}" target="_blank" rel="noopener" class="btn btn-outline" data-translate="true">
           🔗 Official ECI Info
         </a>
       </div>`;
@@ -1352,6 +1352,12 @@ function initTabs() {
     }
     gcpLog('INFO', 'Tab activated', { tabId });
     updateFirebaseStats('section_viewed', { section: tabId });
+
+    // Ensure dynamic content is translated
+    const currentLang = localStorage.getItem('vw_language') || 'en';
+    if (currentLang !== 'en' && typeof translatePage === 'function') {
+      translatePage(currentLang, CONFIG.TRANSLATE_API_KEY);
+    }
   }
 
   tabs.forEach((tab) => {
