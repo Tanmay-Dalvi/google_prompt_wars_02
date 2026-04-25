@@ -147,8 +147,9 @@ exports.askElectionAI = onRequest(
       res.status(500).json({ error: 'Server configuration error.' }); return;
     }
 
-    const langInstruction = sanitizedLang !== 'en'
-      ? `Please respond in the language with code "${sanitizedLang}". ` : '';
+    const langNames = { 'hi': 'Hindi', 'mr': 'Marathi', 'ta': 'Tamil', 'te': 'Telugu', 'bn': 'Bengali', 'en': 'English' };
+    const targetLangName = langNames[sanitizedLang] || 'English';
+    const langInstruction = `CRITICAL: You MUST respond ONLY in ${targetLangName}. Do not use any other language. `;
     const stateCtx = sanitizedState !== 'India'
       ? `The user is from ${sanitizedState}. ` : '';
     const prompt = `${langInstruction}${stateCtx}User question: ${sanitizedQuestion}`;
