@@ -52,7 +52,7 @@ votewise/
 │   ├── index.js        # Cloud Functions: askElectionAI, getElectionTimeline
 │   └── package.json
 └── tests/
-    └── votewise.test.js  # 99 tests across 17 suites
+    └── votewise.test.js  # 101 tests across 17 suites
 ```
 
 ---
@@ -174,7 +174,7 @@ Key security measures:
 
 ## 🧪 Testing
 
-99 tests across 17 suites:
+101 tests across 17 suites:
 
 | Suite | Tests |
 |---|---|
