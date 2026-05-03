@@ -1,4 +1,4 @@
-﻿# Security Policy — VoteWise
+# Security Policy — VoteWise
 
 ## Supported Versions
 
@@ -8,50 +8,78 @@
 
 ## Reporting a Vulnerability
 
-If you discover a security vulnerability in VoteWise, please report it responsibly.
-
 **Do NOT open a public GitHub issue for security vulnerabilities.**
 
 ### How to Report
 
-1. Email: **security@votewise.example.com** (replace with actual contact)
-2. Include: description, steps to reproduce, potential impact, and suggested fix
-3. We will acknowledge within **48 hours** and provide a fix timeline within **7 days**
+1. **Email:** security@votewise.example.com
+2. **Include:** Description, reproduction steps, potential impact, suggested fix
+3. **Response SLA:** Acknowledgement within 48 hours, fix timeline within 7 days
 
-### Scope
+---
 
-In scope:
+## Security Architecture
+
+### Defence in Depth
+
+VoteWise applies security at every layer:
+
+| Layer | Mechanism |
+|---|---|
+| **Transport** | HTTPS enforced via Cloud Run + HSTS header (`max-age=31536000; includeSubDomains; preload`) |
+| **Content** | CSP header in both `nginx.conf` and `index.html` meta tag |
+| **Input** | `sanitizeInput()` strips HTML tags, limits to 200 chars, blocks XSS vectors |
+| **Output** | `escapeHtml()` used on all dynamic DOM insertion — no raw innerHTML from user data |
+| **API** | Gemini API called server-side only via Cloud Functions — no API key in browser requests |
+| **Rate limiting** | Client-side: 2s cooldown, 30 calls max per session via `rateLimiter` |
+| **Validation** | `validateConfig()`, `validateGeminiResponse()`, `validateCloudFunctionResponse()`, `validateFirebaseData()` |
+| **Firebase** | Anonymous auth only; session IDs are UUID v4 — no PII stored |
+| **HTTP Headers** | `X-Frame-Options: DENY`, `X-Content-Type-Options: nosniff`, `X-XSS-Protection`, `Referrer-Policy`, `Permissions-Policy` |
+| **Secrets** | API keys stored in Cloud Run environment variables and Firebase Secret Manager — never committed |
+
+### Threat Model
+
+| Threat | Mitigation |
+|---|---|
+| XSS via chat input | `sanitizeInput()` + `escapeHtml()` + CSP `script-src` |
+| API key theft | Keys only in Cloud Functions environment, not in client code |
+| Firebase data injection | `validateFirebaseData()` schema check before use |
+| Clickjacking | `X-Frame-Options: DENY` |
+| Prompt injection | Input sanitized before reaching Gemini API |
+| DDoS | Cloud Run auto-scaling + client-side rate limiter |
+| Dependency vulnerabilities | `npm audit` in CI `security-audit` job |
+
+### Security Scope
+
+**In scope:**
 - XSS vulnerabilities in user input handling
 - CSP bypass vectors
 - Firebase security rule misconfigurations
 - API key exposure in client-side code
 - Insecure direct object references in Cloud Functions
+- CORS misconfiguration on Cloud Functions
 
-Out of scope:
-- Denial of service attacks
-- Social engineering attacks on users
-- Issues in third-party dependencies already reported upstream
+**Out of scope:**
+- Attacks requiring physical access to servers
+- Social engineering of maintainers
+- Vulnerabilities in Google Cloud infrastructure
 
-## Security Measures Implemented
+---
 
-| Measure | Implementation |
-|---------|----------------|
-| Content Security Policy | meta tag + nginx header |
-| Input Sanitization | `security.js` — strips `<script>`, `javascript:`, `eval()`, `onerror` |
-| HTML Escaping | `escapeHtml()` used on all dynamic DOM insertions |
-| Rate Limiting | 30 Gemini API calls max, 2-second cooldown |
-| XSS Protection | `X-XSS-Protection: 1; mode=block` via nginx |
-| Frame Options | `X-Frame-Options: DENY` — no iframing allowed |
-| HSTS | `Strict-Transport-Security` in nginx production config |
-| No inline JS | Zero inline scripts in index.html |
-| Permissions Policy | Camera, microphone, geolocation denied |
+## Security Checklist for Contributors
 
-## Dependency Security
+Before submitting a PR:
 
-Run `npm audit` to check for known vulnerabilities in Cloud Functions dependencies:
+- [ ] No `eval()`, `new Function()`, or `innerHTML` with user data
+- [ ] All user inputs pass through `sanitizeInput()`
+- [ ] All dynamic DOM updates use `escapeHtml()` 
+- [ ] No secrets or API keys in any committed file
+- [ ] New Cloud Function endpoints validate input server-side
+- [ ] `npm audit --audit-level=high` passes in `functions/`
 
-```bash
-cd functions && npm audit --audit-level=high
-```
+---
 
-The CI pipeline runs security audits on every push (see `.github/workflows/ci.yml`).
+## Contact
+
+For non-security bugs, open a GitHub Issue.  
+For security issues, email security@votewise.example.com.

@@ -1,4 +1,4 @@
-﻿# ============================================================
+# ============================================================
 # VoteWise — GitHub Actions CI/CD Pipeline
 # Author: Tanmay Dalvi
 # Triggers: push/PR to main and develop branches
@@ -86,7 +86,7 @@ jobs:
         run: |
           COUNT=$(grep -c "^  it(" tests/votewise.test.js)
           echo "Test cases found: $COUNT"
-          [ "$COUNT" -ge 80 ] && echo "PASS: 80+ tests present" || echo "WARN: fewer than 80 tests"
+          [ "$COUNT" -ge 95 ] && echo "PASS: 95+ tests present" || echo "WARN: fewer than 95 tests"
 
       - name: Validate test file syntax
         run: node --check tests/votewise.test.js && echo "Test file syntax OK"
@@ -103,7 +103,7 @@ jobs:
 
       - name: Smoke test container
         run: |
-          docker run -d --name votewise-ci -p 8080:80 votewise:ci
+          docker run -d --name votewise-ci -p 8080:8080 votewise:ci
           sleep 5
           curl -f http://localhost:8080/ | grep -i "VoteWise" && echo "Container serving OK"
           docker stop votewise-ci && docker rm votewise-ci

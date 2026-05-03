@@ -16,7 +16,7 @@ const fetch = require('node-fetch');
 // ============ CONSTANTS ============
 const VALID_LANGUAGE_CODES = ['en', 'hi', 'mr', 'ta', 'te', 'bn'];
 const VALID_ELECTION_TYPES = ['Lok Sabha', 'Vidhan Sabha', 'Local Body'];
-const MAX_QUESTION_LENGTH = 500;
+const MAX_INPUT_LENGTH = 200; // matches client-side CONSTANTS.MAX_INPUT_LENGTH
 const GEMINI_API_BASE = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent';
 
 const GEMINI_SYSTEM_PROMPT = `You are VoteWise, an expert on Indian elections and the Election Commission of India (ECI).
@@ -39,7 +39,7 @@ const VALID_INDIAN_STATES = [
 
 // ============ UTILITIES ============
 
-function sanitizeInput(str, maxLen = MAX_QUESTION_LENGTH) {
+function sanitizeInput(str, maxLen = MAX_INPUT_LENGTH) {
   if (typeof str !== 'string') { return ''; }
   let s = str.replace(/<[^>]*>/g, '');
   s = s.replace(/javascript:/gi, '');

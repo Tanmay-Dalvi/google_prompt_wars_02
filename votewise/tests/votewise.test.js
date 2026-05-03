@@ -338,6 +338,8 @@ describe('Constants & Configuration Integrity', (suite) => {
   it('CONSTANTS.GEMINI_TEMPERATURE is a number between 0 and 1', () => { expect(CONSTANTS.GEMINI_TEMPERATURE).toBeGreaterThan(0); expect(CONSTANTS.GEMINI_TEMPERATURE).toBeLessThan(1); }, suite);
   it('CONSTANTS.NEXT_ELECTION_YEAR is a future year', () => { expect(CONSTANTS.NEXT_ELECTION_YEAR).toBeGreaterThan(new Date().getFullYear()); }, suite);
   it('CONSTANTS.LOK_SABHA_CONSTITUENCIES is 543', () => { expect(CONSTANTS.LOK_SABHA_CONSTITUENCIES).toBe(543); }, suite);
+  it('CONSTANTS.GEMINI_MAX_OUTPUT_TOKENS is 512', () => { expect(CONSTANTS.GEMINI_MAX_OUTPUT_TOKENS).toBe(512); }, suite);
+  it('CONSTANTS.FIREBASE_SESSION_KEY is a non-empty string', () => { expect(typeof CONSTANTS.FIREBASE_SESSION_KEY).toBe('string'); expect(CONSTANTS.FIREBASE_SESSION_KEY.length).toBeGreaterThan(0); }, suite);
 });
 
 // ============ TEST RUNNER ============

@@ -27,7 +27,7 @@
     "semi": ["error", "always"],
     "quotes": ["warn", "single", { "avoidEscape": true }],
     "indent": ["warn", 2, { "SwitchCase": 1 }],
-    "max-len": ["warn", { "code": 120, "ignoreComments": true, "ignoreUrls": true }],
+    "max-len": ["warn", { "code": 120, "ignoreComments": true, "ignoreUrls": true, "ignoreStrings": true, "ignoreTemplateLiterals": true }],
     "jsdoc/require-jsdoc": "off",
     "no-restricted-globals": ["error", "event", "name"]
   },
@@ -55,6 +55,10 @@
     "generateUsageReport": "readonly",
     "trackEvent":       "readonly",
     "gcpLog":           "readonly",
+    "CONSTANTS":        "readonly",
+    "INDIAN_STATES":    "readonly",
+    "ELECTION_STEPS":   "readonly",
+    "GLOSSARY_TERMS":   "readonly",
     "validateConfig":   "readonly",
     "sanitizeCloudFunctionResponse": "readonly",
     "rateLimiter":      "readonly"

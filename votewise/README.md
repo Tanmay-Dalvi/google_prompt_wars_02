@@ -15,7 +15,7 @@ VoteWise is a production-ready, multilingual, AI-powered civic education platfor
 
 | Feature | Description |
 |---|---|
-| 🤖 **Gemini AI Assistant** | Real-time election Q&A via Google Cloud Functions + Gemini 1.5 Flash |
+| 🤖 **Gemini AI Assistant** | Real-time election Q&A via Google Cloud Functions + Gemini 2.5 Flash |
 | 🌐 **6 Languages** | English, Hindi, Marathi, Tamil, Telugu, Bengali via Google Translate API |
 | ✅ **Eligibility Checker** | Age, citizenship, address, prison-status validation with AI message |
 | 📅 **Election Timeline** | State-wise phases, key dates, Google Calendar + ICS integration |
@@ -33,8 +33,8 @@ VoteWise is a production-ready, multilingual, AI-powered civic education platfor
 ```
 votewise/
 ├── index.html          # Clean HTML shell — zero inline JS/CSS
-├── styles.css          # 676-line complete stylesheet (23 sections)
-├── app.js              # 1,930-line core logic (15 sections)
+├── styles.css          # 724-line complete stylesheet (24 sections)
+├── app.js              # 2,200-line core logic (17 sections)
 ├── config.js           # Centralized API keys & Firebase config
 ├── security.js         # Input sanitization, XSS protection, rate limiting
 ├── translate.js        # Google Translate API + sessionStorage cache
@@ -52,7 +52,7 @@ votewise/
 │   ├── index.js        # Cloud Functions: askElectionAI, getElectionTimeline
 │   └── package.json
 └── tests/
-    └── votewise.test.js  # 90 tests across 16 suites
+    └── votewise.test.js  # 99 tests across 17 suites
 ```
 
 ---
@@ -61,7 +61,7 @@ votewise/
 
 | Service | Usage |
 |---|---|
-| **Gemini 1.5 Flash API** | AI election Q&A with context-aware prompts |
+| **Gemini 2.5 Flash API** | AI election Q&A with context-aware prompts |
 | **Google Cloud Functions** | Primary backend for `askElectionAI` and `getElectionTimeline` |
 | **Google Translate API** | Real-time page translation with sessionStorage caching |
 | **Google Calendar API** | Add election dates directly to user's calendar |
@@ -174,7 +174,7 @@ Key security measures:
 
 ## 🧪 Testing
 
-90 tests across 16 suites:
+99 tests across 17 suites:
 
 | Suite | Tests |
 |---|---|

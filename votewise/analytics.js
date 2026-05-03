@@ -272,7 +272,7 @@ function trackEvent(name, properties) {
   if (typeof gcpLog === 'function') {
     gcpLog('INFO', `Analytics event: ${name}`, event);
   } else {
-    console.info(logEntry);
+    console.info(logEntry); // eslint-disable-line no-console — GCP structured log fallback for analytics
   }
 }
 
@@ -300,7 +300,7 @@ function simulateBigQueryLog(queryString, result) {
     labels: { service: 'votewise', version: '1.0.0', module: 'analytics' }
   };
 
-  console.info(JSON.stringify(bqLog));
+  console.info(JSON.stringify(bqLog)); // eslint-disable-line no-console — BigQuery log entry to Cloud Logging
 
   if (typeof gcpLog === 'function') {
     gcpLog('INFO', 'BigQuery analytics query executed', bqLog.bigquery);

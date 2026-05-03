@@ -56,7 +56,8 @@ const CONFIG = {
     measurementId: 'G-52XQC8NQGJ'
   },
   CLOUD_FUNCTIONS_BASE_URL: 'https://asia-south1-promptwars-virtual-493517.cloudfunctions.net',
-  CONFIG_VERSION: '1.0.0',
+  CONFIG_VERSION: '1.0.2',
+  CONFIG_DESCRIPTION: 'VoteWise — AI-powered election literacy assistant. Gemini 2.5 Flash + Firebase + Cloud Functions.',
   DEBUG_MODE: false,
   APP: {
     name: 'VoteWise',

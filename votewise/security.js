@@ -1,3 +1,4 @@
+/* global CONSTANTS */
 /**
  * VoteWise - AI-Powered Election Literacy Assistant
  * @module security

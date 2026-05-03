@@ -432,9 +432,15 @@ async function callGeminiDirect(prompt, language = 'en') {
     return 'AI assistant is not configured. Please add your Gemini API key to config.js. Visit eci.gov.in for official election information.';
   }
 
-  const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
-  const systemPrompt = 'You are VoteWise, an expert on Indian elections and the Election Commission of India. Help citizens understand voting processes, their rights, registration steps, and election timelines. Answer in simple, clear language. If asked in Hindi or a regional language, respond in that language. Always cite ECI guidelines when relevant. Keep answers under 4 sentences unless a step-by-step is needed.';
-
+  const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
+  const systemPrompt = [
+    'You are VoteWise, an expert on Indian elections and the Election Commission of India.',
+    'Help citizens understand voting processes, their rights, registration steps, and election timelines.',
+    'Answer in simple, clear language.',
+    'If asked in Hindi or a regional language, respond in that language.',
+    'Always cite ECI guidelines when relevant.',
+    'Keep answers under 4 sentences unless a step-by-step is needed.'
+  ].join(' ');
   try {
     const response = await fetch(GEMINI_URL, {
       method: 'POST',
@@ -1054,7 +1060,11 @@ function renderTimeline(timeline, state) {
       <div class="timeline-date-label" data-translate="true">${esc(entry.label)}</div>
       <div class="timeline-date-value" data-translate="true">${esc(entry.date || 'TBA')}</div>
       <button class="btn btn-outline btn-sm timeline-cal-btn"
-        onclick='addToGoogleCalendar({title:"🗳️ ${esc(entry.label)} - ${esc(state)}",startDate:"${timeline.nextElectionYear || 2029}-04-01",description:"${esc(entry.label)} for ${esc(state)} elections."})'
+        onclick='addToGoogleCalendar({
+          title:"🗳️ ${esc(entry.label)} - ${esc(state)}",
+          startDate:"${timeline.nextElectionYear || CONSTANTS.NEXT_ELECTION_YEAR}-04-01",
+          description:"${esc(entry.label)} for ${esc(state)} elections."
+        })'
         aria-label="Add ${esc(entry.label)} to Google Calendar">
         📅 <span data-translate="true">Add to Calendar</span>
       </button>
@@ -1722,8 +1732,11 @@ function appendChatMessage(role, content) {
       .replace(/\n/g, '<br>');               // Newlines -> <br>
   };
   
+  const copyBtnHtml = 'navigator.clipboard.writeText(' +
+    'this.closest(\'.chat-message\').querySelector(\'.chat-content\').innerText' +
+    ').then(()=>showToast(\'Copied!\',\'success\'))';
   const copyBtn = role === 'assistant'
-    ? '<button class="chat-copy-btn" onclick="navigator.clipboard.writeText(this.closest(\'.chat-message\').querySelector(\'.chat-content\').innerText).then(()=>showToast(\'Copied!\',\'success\'))" aria-label="Copy response">📋</button>'
+    ? `<button class="chat-copy-btn" onclick="${copyBtnHtml}" aria-label="Copy response">📋</button>`
     : '';
 
   const html = `
